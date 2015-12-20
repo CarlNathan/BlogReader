@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED26A50C1C25AE5300B4C5E7 /* BlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = ED26A50B1C25AE5300B4C5E7 /* BlogPost.m */; };
 		ED449EC51C1F5BD8006736C6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ED449EC41C1F5BD8006736C6 /* main.m */; };
 		ED449EC81C1F5BD8006736C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ED449EC71C1F5BD8006736C6 /* AppDelegate.m */; };
 		ED449ECB1C1F5BD8006736C6 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED449ECA1C1F5BD8006736C6 /* MasterViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED26A50A1C25AE5300B4C5E7 /* BlogPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlogPost.h; sourceTree = "<group>"; };
+		ED26A50B1C25AE5300B4C5E7 /* BlogPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlogPost.m; sourceTree = "<group>"; };
 		ED449EC01C1F5BD8006736C6 /* BlogReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlogReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED449EC41C1F5BD8006736C6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ED449EC61C1F5BD8006736C6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 			children = (
 				ED449EC61C1F5BD8006736C6 /* AppDelegate.h */,
 				ED449EC71C1F5BD8006736C6 /* AppDelegate.m */,
+				ED26A50A1C25AE5300B4C5E7 /* BlogPost.h */,
+				ED26A50B1C25AE5300B4C5E7 /* BlogPost.m */,
 				ED449EC91C1F5BD8006736C6 /* MasterViewController.h */,
 				ED449ECA1C1F5BD8006736C6 /* MasterViewController.m */,
 				ED449ECC1C1F5BD8006736C6 /* DetailViewController.h */,
@@ -277,6 +282,7 @@
 			files = (
 				ED449EC81C1F5BD8006736C6 /* AppDelegate.m in Sources */,
 				ED449ECB1C1F5BD8006736C6 /* MasterViewController.m in Sources */,
+				ED26A50C1C25AE5300B4C5E7 /* BlogPost.m in Sources */,
 				ED449EC51C1F5BD8006736C6 /* main.m in Sources */,
 				ED449ECE1C1F5BD8006736C6 /* DetailViewController.m in Sources */,
 			);
@@ -502,6 +508,7 @@
 				ED449EF21C1F5BD8006736C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ED449EF31C1F5BD8006736C6 /* Build configuration list for PBXNativeTarget "BlogReaderTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +517,7 @@
 				ED449EF51C1F5BD8006736C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ED449EF61C1F5BD8006736C6 /* Build configuration list for PBXNativeTarget "BlogReaderUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +526,7 @@
 				ED449EF81C1F5BD8006736C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

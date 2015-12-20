@@ -12,6 +12,8 @@
 
 @interface MasterViewController : UITableViewController
 
+@property(strong, nonatomic) NSMutableArray *blogPosts;
+
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
 

@@ -8,23 +8,37 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "BlogPost.h"
 
-@interface MasterViewController ()
-
-@property NSMutableArray *objects;
-@end
 
 @implementation MasterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    
+    
+    NSURL *blogURL = [NSURL URLWithString:@"http://blog.teamtreehouse.com/api/get_recent_summary"];
+    
+    NSData *jsonData = [NSData dataWithContentsOfURL:blogURL];
+    
+    NSError *error = nil;
+    
+    NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    
+    self.blogPosts = [NSMutableArray array];
+    NSArray *blogPostsArray  = [dataDictionary  objectForKey:@"posts"];
+    
+    for (NSDictionary *bpDictionary in blogPostsArray) {
+        BlogPost *blogPost = [BlogPost blogPostWithTitle:[bpDictionary objectForKey:@"title"]];
+        blogPost.author = [bpDictionary objectForKey:@"author"];
+        blogPost.thumbnail = [bpDictionary objectForKey:@"thumbnail"];
+        blogPost.date = [bpDictionary objectForKey:@"date"];
+        blogPost.url = [NSURL URLWithString:[bpDictionary objectForKey:@"url"]];
+        [self.blogPosts addObject:blogPost];
+    }
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-}
+    }
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
@@ -36,23 +50,19 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)insertNewObject:(id)sender {
-    if (!self.objects) {
-        self.objects = [[NSMutableArray alloc] init];
-    }
-    [self.objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
+
 
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        BlogPost *blogPost = self.blogPosts[indexPath.row];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:object];
+        NSURL *url = blogPost.url;
+        NSString *title = blogPost.title;
+        [controller setBlogPostURL:url];
+        controller.navigationItem.title = title;
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
     }
@@ -65,29 +75,42 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.objects.count;
+    return self.blogPosts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    BlogPost *blogPost = [self.blogPosts objectAtIndex:indexPath.row];
+    cell.textLabel.text = blogPost.title;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", blogPost.author, [blogPost formattedDate]];
+    
+    if ([blogPost.thumbnail isKindOfClass:[NSString class]]) {
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:blogPost.thumbnailURL];
+    UIImage *image = [UIImage imageWithData:imageData];
+    cell.imageView.image = image;
+    }
+    
+    
     return cell;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
+#pragma mark - Table view delegate
+
+/*-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    BlogPost *blogPost = [self.blogPosts objectAtIndex:indexPath.row];
+    UIApplication *application = [UIApplication sharedApplication];
+    [application openURL:blogPost.url];
+ 
+
+
+} */
+
 
 @end
